@@ -10,6 +10,10 @@ public class FooServiceImpl implements FooService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private FooService fooService;
+
+
     @Override
     @Transactional
     public void insertRecord() {
@@ -25,6 +29,7 @@ public class FooServiceImpl implements FooService {
 
     @Override
     public void invokeInsertThenRollback() throws RollbackException {
-        insertThenRollback();
+        // 增加类实例调用内部方法，可以使用内部方法的事务
+        fooService.insertThenRollback();
     }
 }
