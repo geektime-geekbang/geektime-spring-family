@@ -6,6 +6,7 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!-- 在类里面配置 @EnableAspectJAutoProxy 或者在xml中配置如下，效果是一样的，就是开启AOP-->
     <aop:aspectj-autoproxy/>
 
     <bean id="testBeanX" class="geektime.spring.web.context.TestBean">

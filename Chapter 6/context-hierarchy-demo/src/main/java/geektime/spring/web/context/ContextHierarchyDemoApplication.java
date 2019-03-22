@@ -21,15 +21,16 @@ public class ContextHierarchyDemoApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		ApplicationContext fooContext = new AnnotationConfigApplicationContext(FooConfig.class);
-		ClassPathXmlApplicationContext barContext = new ClassPathXmlApplicationContext(
-				new String[] {"applicationContext.xml"}, fooContext);
 		TestBean bean = fooContext.getBean("testBeanX", TestBean.class);
 		bean.hello();
 
 		log.info("=============");
+		ClassPathXmlApplicationContext barContext = new ClassPathXmlApplicationContext(
+				new String[] {"applicationContext.xml"}, fooContext);
 
 		bean = barContext.getBean("testBeanX", TestBean.class);
 		bean.hello();
+		log.info("=============");
 
 		bean = barContext.getBean("testBeanY", TestBean.class);
 		bean.hello();
