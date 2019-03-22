@@ -9,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @EnableAspectJAutoProxy
- * 启动aop，在aop切面增强中，
+ * 启动aop，在aop切面增强中，在父容器
  */
 
 @Configuration
