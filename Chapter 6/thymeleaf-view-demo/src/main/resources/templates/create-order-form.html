@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <h2>Coffee Available Today</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Coffee Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="coffee : ${coffeeList}">
+                    <td th:text="${coffee.name}">Espresso</td>
+                    <td th:text="${coffee.price}">CNY 12.0</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Your Order</h2>
+        <form action="#" th:action="@{/order/}" method="post">
+            <label>Customer Name</label>
+            <input type="text" name="customer" />
+            <ul>
+                <li th:each="coffee : ${coffeeList}">
+                    <input type="checkbox" name="items" th:value="${coffee.name}" />
+                    <label th:text="${coffee.name}">Espresso</label>
+                </li>
+            </ul>
+            <input type="submit" value="Submit"/>
+            <p th:text="${message}">Message</p>
+        </form>
+    </body>
+</html>
