@@ -43,6 +43,30 @@ public class DeclarativeTransactionDemoApplication implements CommandLineRunner 
 					jdbcTemplate
 							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='BBB'", Long.class));
 		}
+
+		try {
+			fooService.invokeInsertThenRollbackByAopContext();
+		} catch (Exception e) {
+			log.info("BBB {}",
+					jdbcTemplate
+							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='BBB'", Long.class));
+		}
+
+		try {
+			fooService.invokeInsertThenRollbackBySelfService();
+		} catch (Exception e) {
+			log.info("BBB {}",
+					jdbcTemplate
+							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='BBB'", Long.class));
+		}
+
+		try {
+			fooService.invokeInsertThenRollbackAddTransactional();
+		} catch (Exception e) {
+			log.info("BBB {}",
+					jdbcTemplate
+							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='BBB'", Long.class));
+		}
 	}
 }
 

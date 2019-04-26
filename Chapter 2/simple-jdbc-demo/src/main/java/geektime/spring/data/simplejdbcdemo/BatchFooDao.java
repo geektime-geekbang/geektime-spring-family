@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -34,6 +35,10 @@ public class BatchFooDao {
                 });
 
         List<Foo> list = new ArrayList<>();
+//        list.add(null);
+//        List<Foo> lista = new LinkedList<>();
+//        lista.add(null);
+
         list.add(Foo.builder().id(100L).bar("b-100").build());
         list.add(Foo.builder().id(101L).bar("b-101").build());
         namedParameterJdbcTemplate

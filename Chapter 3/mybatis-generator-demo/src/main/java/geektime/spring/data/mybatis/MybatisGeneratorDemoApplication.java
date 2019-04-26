@@ -34,7 +34,7 @@ public class MybatisGeneratorDemoApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-//		generateArtifacts();
+		//generateArtifacts();
 		playWithArtifacts();
 	}
 
@@ -68,6 +68,7 @@ public class MybatisGeneratorDemoApplication implements ApplicationRunner {
 
 		CoffeeExample example = new CoffeeExample();
 		example.createCriteria().andNameEqualTo("latte");
+		example.setOrderByClause("id desc");
 		List<Coffee> list = coffeeMapper.selectByExample(example);
 		list.forEach(e -> log.info("selectByExample: {}", e));
 	}

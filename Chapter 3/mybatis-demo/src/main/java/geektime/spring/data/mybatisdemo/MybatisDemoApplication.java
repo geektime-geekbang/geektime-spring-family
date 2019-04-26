@@ -27,11 +27,21 @@ public class MybatisDemoApplication implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		Coffee c = Coffee.builder().name("espresso")
 				.price(Money.of(CurrencyUnit.of("CNY"), 20.0)).build();
-		Long id = coffeeMapper.save(c);
-		log.info("Coffee {} => {}", id, c);
+		coffeeMapper.save(c);
 
-		c = coffeeMapper.findById(id);
-		log.info("Coffee {}", c);
+		log.info("Coffee {} => {}", c.getId(), c);
+
+		c = coffeeMapper.findById(c.getId());
+		log.info("get Coffee 1 {}", c);
+
+		Coffee test = Coffee.builder().name("test")
+				.price(Money.of(CurrencyUnit.of("CNY"), 80.0)).build();
+		coffeeMapper.save(test);
+
+		log.info("Coffee {} => {}", test.getId(), test);
+
+		test = coffeeMapper.findById(test.getId());
+		log.info("get Coffee 2 {}", test);
 	}
 }
 
