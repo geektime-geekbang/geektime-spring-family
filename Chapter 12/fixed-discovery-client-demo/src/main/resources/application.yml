@@ -1,0 +1,5 @@
+server.port: 8090
+
+waiter:
+  services:
+    - localhost:8080
