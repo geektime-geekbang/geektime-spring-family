@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Collections;
 
 @Component
 @Slf4j
@@ -85,7 +86,7 @@ public class CustomerRunner implements ApplicationRunner {
 
         Resource<CoffeeOrder> order = resp.getBody();
         Link items = order.getLink("items");
-        req = RequestEntity.post(items.getTemplate().expand()).body(coffee.getLink("self"));
+        req = RequestEntity.post(items.getTemplate().expand()).body(Collections.singletonMap("_links", coffee.getLink("self")));
         ResponseEntity<String> itemResp = restTemplate.exchange(req, String.class);
         log.info("add Order Items Response: {}", itemResp);
     }
