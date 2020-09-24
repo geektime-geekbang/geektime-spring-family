@@ -1,0 +1,119 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql
+    expose:
+      - 3306
+    environment:
+      - MYSQL_DATABASE=springbucks 
+      - MYSQL_USER=springbucks 
+      - MYSQL_PASSWORD=springbucks 
+      - MYSQL_ROOT_PASSWORD=root_password
+
+  redis:
+    image: redis
+    expose:
+      - 6379
+
+  consul:
+    image: consul
+    expose:
+      - 8300
+      - 8301
+      - 8302
+      - 8400
+      - 8500
+      - 8600
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    expose:
+      - 5672
+      - 15672
+    ports:
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=spring
+      - RABBITMQ_DEFAULT_PASS=spring
+
+  zipkin:
+    image: openzipkin/zipkin
+    depends_on:
+      - rabbitmq
+    expose:
+      - 9411
+    ports:
+      - 9411:9411
+    links:
+      - rabbitmq
+    # Wait for rabbitmq - Can use wait-for-it instead.
+    restart: always
+    environment:
+      - RABBIT_ADDRESSES=rabbitmq:5672 
+      - RABBIT_USER=spring
+      - RABBIT_PASSWORD=spring
+
+  waiter-service:
+    image: springbucks/waiter-service:0.0.1-SNAPSHOT
+    depends_on:
+      - mysql
+      - consul
+      - rabbitmq
+      - zipkin
+      - redis
+    links:
+      - mysql
+      - consul
+      - rabbitmq
+      - zipkin
+      - redis
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
+  barista-service:
+    image: springbucks/barista-service:0.0.1-SNAPSHOT
+    depends_on:
+      - mysql
+      - consul
+      - rabbitmq
+      - zipkin
+    links:
+      - mysql
+      - consul
+      - rabbitmq
+      - zipkin
+
+  customer-service-8090:
+    image: springbucks/customer-service:0.0.1-SNAPSHOT
+    depends_on:
+      - waiter-service
+    links:
+      - consul
+      - rabbitmq
+      - zipkin
+      - waiter-service
+    expose:
+      - 8090
+    ports:
+      - 8090:8090
+    environment:
+      - SERVER_PORT=8090
+
+  customer-service-9090:
+    image: springbucks/customer-service:0.0.1-SNAPSHOT
+    depends_on:
+      - waiter-service
+    links:
+      - consul
+      - rabbitmq
+      - zipkin
+      - waiter-service
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    environment:
+      - SERVER_PORT=9090
